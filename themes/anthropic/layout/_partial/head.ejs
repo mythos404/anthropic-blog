@@ -2,5 +2,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><%= page.title ? page.title + ' — ' + config.title : config.title %></title>
 <meta name="description" content="<%= page.description || config.description || '' %>">
+<!-- Open Graph -->
+<meta property="og:type" content="<%= page.layout === 'post' ? 'article' : 'website' %>">
+<meta property="og:site_name" content="<%= config.title %>">
+<meta property="og:title" content="<%= page.title ? page.title + ' — ' + config.title : config.title %>">
+<meta property="og:description" content="<%= page.description || config.description || '' %>">
+<meta property="og:url" content="<%= config.url %>/<%= page.path %>">
+<meta property="og:image" content="<%= config.url %>/images/nasa-pd4lo70LdbI-unsplash.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<%= page.title ? page.title + ' — ' + config.title : config.title %>">
+<meta name="twitter:description" content="<%= page.description || config.description || '' %>">
+<meta name="twitter:image" content="<%= config.url %>/images/nasa-pd4lo70LdbI-unsplash.jpg">
 <link rel="icon" type="image/svg+xml" href="<%- url_for('/images/favicon.svg') %>">
 <link rel="stylesheet" href="<%- url_for('/css/style.css') %>">
