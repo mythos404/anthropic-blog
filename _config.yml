@@ -7,7 +7,7 @@ language: en
 timezone: ''
 
 # URL
-url: http://example.com
+url: https://my-blog-txk.pages.dev
 permalink: :year/:month/:day/:title/
 pretty_urls:
   trailing_index: true
