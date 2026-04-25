@@ -1,0 +1,16 @@
+# Anthropic-inspired theme for SAUL'S BLOG
+menu:
+  Home: /
+  Categories: /categories/
+  About: /about/
+  Links: /links/
+
+footer:
+  blog:
+    Home: /
+    Archives: /archives/
+    Categories: /categories/
+  read:
+    About: /about/
+    Links: /links/
+    Search: /search/

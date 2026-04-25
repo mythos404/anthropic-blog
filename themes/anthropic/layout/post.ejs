@@ -1,0 +1,39 @@
+<%
+  var related = site.posts.sort('-date').toArray().filter(function(p){ return p.path !== page.path; }).slice(0, 3);
+%>
+<article class="post">
+
+  <header class="post__header">
+    <% if (page.categories && page.categories.length) { %>
+      <a class="post__eyebrow" href="<%- url_for(page.categories.first().path) %>"><%= page.categories.first().name %></a>
+    <% } %>
+    <h1 class="post__title"><%= page.title %></h1>
+    <div class="post__meta">
+      <time datetime="<%= date_xml(page.date) %>"><%= date(page.date, 'MMM D, YYYY') %></time>
+    </div>
+  </header>
+
+  <div class="post__body">
+    <%- page.content %>
+  </div>
+
+  <% if (related.length) { %>
+  <section class="post__related">
+    <h2 class="post__related-heading">Related posts</h2>
+    <div class="post__related-grid">
+      <% related.forEach(function(p){ %>
+        <article class="post__related-item">
+          <h3 class="post__related-name">
+            <a href="<%- url_for(p.path) %>"><%= p.title %></a>
+          </h3>
+          <% if (p.description) { %>
+            <p class="post__related-desc"><%= p.description %></p>
+          <% } %>
+          <a class="post__related-cta" href="<%- url_for(p.path) %>">Read more →</a>
+        </article>
+      <% }); %>
+    </div>
+  </section>
+  <% } %>
+
+</article>

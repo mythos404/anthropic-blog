@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm -v)",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(command -v brew)",
+      "Bash(brew install *)",
+      "Bash(npm install *)",
+      "Bash(hexo -v)",
+      "Bash(hexo init *)",
+      "Bash(mv saul-blog-theme-bak/saul-blog .)",
+      "Bash(rmdir saul-blog-theme-bak *)",
+      "Bash(rm -rf landscape)",
+      "Bash(hexo new *)",
+      "Bash(hexo clean *)",
+      "Bash(hexo generate *)",
+      "Bash(wait)",
+      "Bash(pkill -f \"npm install hexo-generator-search\")",
+      "Bash(hexo server *)",
+      "Bash(curl -s -o /dev/null -w \"home:%{http_code}\\\\n\" http://localhost:4000/)",
+      "Bash(curl -s -o /dev/null -w \"about:%{http_code}\\\\n\" http://localhost:4000/about/)",
+      "Bash(curl -s -o /dev/null -w \"categories:%{http_code}\\\\n\" http://localhost:4000/categories/)",
+      "Bash(curl -s -o /dev/null -w \"search:%{http_code}\\\\n\" http://localhost:4000/search/)",
+      "Bash(curl -s -o /dev/null -w \"links:%{http_code}\\\\n\" http://localhost:4000/links/)",
+      "Bash(curl -s http://localhost:4000/)",
+      "Bash(curl -s http://localhost:4000/search.xml)",
+      "Bash(curl -s http://localhost:4000/2026/04/22/hello-world/)",
+      "Bash(npx hexo *)",
+      "Bash(echo \"Server starting with PID $!\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:4000)",
+      "Bash(pkill -f \"hexo server\")",
+      "Bash(awk NR>=119 && NR<=123 {print NR\": \"$0}\nNR>=139 && NR<=145 {print NR\": \"$0}\nNR>=243 && NR<=248 {print NR\": \"$0}\nNR>=308 && NR<=315 {print NR\": \"$0}\nNR>=330 && NR<=336 {print NR\": \"$0}\nNR>=340 && NR<=346 {print NR\": \"$0}\nNR>=351 && NR<=358 {print NR\": \"$0}\nNR>=486 && NR<=492 {print NR\": \"$0}\nNR>=590 && NR<=595 {print NR\": \"$0}\nNR>=618 && NR<=630 {print NR\": \"$0}\nNR>=660 && NR<=665 {print NR\": \"$0} *)",
+      "Bash(curl -s http://localhost:4000/css/style.css)",
+      "Bash(grep *)",
+      "Bash(xargs ls *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}

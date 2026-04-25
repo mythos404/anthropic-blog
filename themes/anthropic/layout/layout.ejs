@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="<%= config.language || 'en' %>">
+<head>
+<%- partial('_partial/head') %>
+</head>
+<body class="<%= is_home() ? 'layout-index' : 'layout-inner' %><%= page.layout === 'about' ? ' page-about' : '' %>">
+  <%- partial('_partial/header') %>
+  <main class="main">
+    <%- body %>
+  </main>
+  <%- partial('_partial/footer') %>
+</body>
+</html>

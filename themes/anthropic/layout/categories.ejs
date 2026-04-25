@@ -1,0 +1,87 @@
+<%
+var COLORS = {
+  'Announcements': '#5A7060',
+  'AI & Tools':    '#4A6375',
+  'Tutorials':     '#6B5E7A',
+  'TV & Film':     '#7A5650',
+  'Thoughts':      '#7A6A56',
+  'Uncategorized': '#6B6456'
+};
+
+var DESCS = {
+  'Announcements': 'Blog announcements and welcome posts',
+  'AI & Tools':    'Claude, ChatGPT, Ghostty, Claude Code, and everything AI',
+  'Tutorials':     'Step-by-step guides on Apple ID, Shadowrocket, and more',
+  'TV & Film':     'Better Call Saul, Breaking Bad, Shameless, and more',
+  'Thoughts':      'Personal essays, random musings, whatever\'s on my mind',
+  'Uncategorized': ''
+};
+%>
+<section class="archive">
+  <div class="archive__header">
+    <h1 class="archive__title">Categories</h1>
+  </div>
+  <div class="archive__layout">
+
+    <div class="archive__left">
+      <div class="archive__cols">
+        <span>CATEGORY</span>
+        <span>POSTS</span>
+        <span>DESCRIPTION</span>
+      </div>
+      <ul class="archive__list">
+        <% site.categories.sort('name').each(function(cat){ %>
+          <li class="archive__row"
+              data-category="<%= cat.name %>"
+              data-count="<%= cat.length %>">
+            <a href="<%- url_for(cat.path) %>">
+              <span class="archive__row-title"><%= cat.name %></span>
+              <span><%= cat.length %> post<%= cat.length === 1 ? '' : 's' %></span>
+              <span class="archive__row-desc"><%= DESCS[cat.name] || '' %></span>
+            </a>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+
+    <div class="archive__right">
+      <div class="archive__preview" id="js-archive-preview" aria-hidden="true">
+        <span class="archive__preview-cat" id="js-preview-cat"></span>
+        <span class="archive__preview-title" id="js-preview-title"></span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  var COLORS = {
+    'Announcements': '#5A7060',
+    'AI & Tools':    '#4A6375',
+    'Tutorials':     '#6B5E7A',
+    'TV & Film':     '#7A5650',
+    'Thoughts':      '#7A6A56',
+    'Uncategorized': '#6B6456'
+  };
+
+  var preview      = document.getElementById('js-archive-preview');
+  var previewCat   = document.getElementById('js-preview-cat');
+  var previewTitle = document.getElementById('js-preview-title');
+  var rows         = document.querySelectorAll('.archive__row');
+  if (!preview || !rows.length) return;
+
+  function activate(row) {
+    var cat   = row.dataset.category;
+    preview.style.background = COLORS[cat] || COLORS['Uncategorized'];
+    previewCat.textContent   = cat;
+    previewTitle.textContent = row.dataset.count + (row.dataset.count === '1' ? ' post' : ' posts');
+  }
+
+  activate(rows[0]);
+
+  rows.forEach(function (row) {
+    row.addEventListener('mouseenter', function () { activate(row); });
+  });
+})();
+</script>

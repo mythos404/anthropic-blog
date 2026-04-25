@@ -1,0 +1,225 @@
+<%
+  var sorted = site.posts.sort('-date').toArray();
+  var featured = sorted[0];
+  var rest = sorted.slice(0, 3);
+  var allList = sorted.slice(0, 5);
+%>
+
+<section class="hero">
+  <div class="hero__left">
+    <h1 class="hero__title">Notes on <a href="/categories/AI-Tools/" class="hero__title-link">AI</a>, great <a href="/categories/TV-Film/" class="hero__title-link">TV</a>, and the art of figuring things out.</h1>
+  </div>
+  <div class="hero__right">
+    <p class="hero__desc">A personal blog. No agenda, no expertise. Just a Saul Goodman fan writing about tools, shows, and the stuff that keeps life interesting.</p>
+  </div>
+</section>
+
+<% if (featured) { %>
+<section class="featured">
+  <article class="featured__card">
+    <div class="featured__inner">
+      <div class="featured__content">
+        <h2 class="featured__title"><%= featured.title %></h2>
+        <% if (featured.description) { %>
+          <p class="featured__desc"><%= featured.description %></p>
+        <% } %>
+        <a class="featured__cta" href="<%- url_for(featured.path) %>">Continue reading</a>
+      </div>
+      <div class="featured__visual" aria-hidden="true">
+        <img src="/images/nasa-pd4lo70LdbI-unsplash.jpg" alt="">
+      </div>
+    </div>
+  </article>
+</section>
+<% } %>
+
+<% if (rest.length) { %>
+<section class="releases">
+  <h3 class="section-label">Latest posts</h3>
+  <div class="releases__grid">
+    <% rest.forEach(function(post){ %>
+      <article class="release-card">
+        <h4 class="release-card__title"><%= post.title %></h4>
+        <% if (post.description) { %>
+          <p class="release-card__desc"><%= post.description %></p>
+        <% } %>
+        <dl class="release-card__meta">
+          <div>
+            <dt>DATE</dt>
+            <dd><%= date(post.date, 'MMMM D, YYYY') %></dd>
+          </div>
+          <div>
+            <dt>CATEGORY</dt>
+            <dd><%= post.categories.length ? post.categories.first().name : 'Uncategorized' %></dd>
+          </div>
+        </dl>
+        <a class="release-card__cta" href="<%- url_for(post.path) %>">Read post →</a>
+      </article>
+    <% }); %>
+  </div>
+</section>
+<% } %>
+
+<script>
+(function () {
+  var card  = document.querySelector('.featured__card');
+  var inner = document.querySelector('.featured__inner');
+  if (!card || !inner) return;
+
+  var initLeft = 0, initRight = 0, cardDocTop = 0, initInnerW = 0;
+  var RADIUS = 24;
+  var LERP   = 0.18;
+
+  var currentT = 0;
+  var targetT  = 0;
+  var rafId    = null;
+
+  function measure() {
+    /* reset everything so we measure natural layout */
+    card.style.marginLeft    = '';
+    card.style.marginRight   = '';
+    card.style.borderRadius  = '';
+    inner.style.width = '';
+
+    var cr = card.getBoundingClientRect();
+    initLeft    = cr.left;
+    initRight   = window.innerWidth - cr.right;
+    cardDocTop  = cr.top + window.scrollY;
+    /* lock inner to its natural width so it never reflows during expansion */
+    initInnerW  = inner.getBoundingClientRect().width;
+  }
+
+  function computeTarget() {
+    var vh         = window.innerHeight;
+    /* start expansion only after hero is mostly scrolled away */
+    var animStart  = Math.max(cardDocTop * 0.45, cardDocTop - vh * 0.25);
+    var animTravel = vh * 0.18;
+    return Math.min(1, Math.max(0, (window.scrollY - animStart) / animTravel));
+  }
+
+  function applyT(t) {
+    var ml = -initLeft  * t;
+    var mr = -initRight * t;
+    card.style.marginLeft   = ml + 'px';
+    card.style.marginRight  = mr + 'px';
+    card.style.borderRadius = (RADIUS * (1 - t)) + 'px';
+    /* lock inner width so flex children don't reflow as card expands */
+    inner.style.width = initInnerW + 'px';
+  }
+
+  function tick() {
+    currentT += (targetT - currentT) * LERP;
+    applyT(currentT);
+    if (Math.abs(targetT - currentT) > 0.001) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      applyT(targetT);
+      rafId = null;
+    }
+  }
+
+  function onScroll() {
+    targetT = computeTarget();
+    if (!rafId) rafId = requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(function () {
+    measure();
+    currentT = targetT = computeTarget();
+    applyT(currentT);
+  });
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { measure(); onScroll(); }, { passive: true });
+})();
+</script>
+
+<script>
+/* ---- Hero title: word-by-word stagger up ---- */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var title = document.querySelector('.hero__title');
+  if (!title) return;
+
+  var idx = 0;
+  function wrapNode(node) {
+    if (node.nodeType === 3) {
+      var parts = node.textContent.split(/(\s+)/);
+      var frag  = document.createDocumentFragment();
+      parts.forEach(function (p) {
+        if (!p) return;
+        if (/^\s+$/.test(p)) {
+          frag.appendChild(document.createTextNode(p));
+        } else {
+          var s = document.createElement('span');
+          s.style.cssText = 'display:inline-block;opacity:0;'
+            + 'animation:anim-word-up 0.5s ease forwards;'
+            + 'animation-delay:' + (idx++ * 52) + 'ms';
+          s.textContent = p;
+          frag.appendChild(s);
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === 1) {
+      /* inline elements like <u> — treat as one word unit */
+      node.style.cssText = 'display:inline-block;opacity:0;'
+        + 'animation:anim-word-up 0.5s ease forwards;'
+        + 'animation-delay:' + (idx++ * 52) + 'ms';
+    }
+  }
+  Array.from(title.childNodes).forEach(wrapNode);
+
+})();
+
+/* ---- Featured card: fade-down on scroll into view ---- */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var card = document.querySelector('.featured__card');
+  if (!card) return;
+
+  var sels = ['.featured__title', '.featured__desc', '.featured__cta', '.featured__visual'];
+  sels.forEach(function (sel) {
+    var el = card.querySelector(sel);
+    if (el) el.classList.add('will-animate');
+  });
+
+  function triggerFeaturedAnim() {
+    sels.forEach(function (sel) {
+      var el = card.querySelector(sel);
+      if (el) el.classList.add('do-animate');
+    });
+  }
+
+  /* if card is already in view on load, animate shortly after page ready */
+  setTimeout(function () {
+    var r = card.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      triggerFeaturedAnim();
+      return;
+    }
+    /* otherwise wait until card scrolls into view */
+    var observer = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      triggerFeaturedAnim();
+      observer.disconnect();
+    }, { threshold: 0.1 });
+    observer.observe(card);
+  }, 150);
+})();
+</script>
+
+<% if (allList.length) { %>
+<section class="manifesto">
+  <p class="manifesto__text">At Saul's Blog, I write about the things I can't stop thinking about — AI, Breaking Bad, and whatever else is worth putting into words.</p>
+  <ul class="manifesto__list">
+    <% allList.forEach(function(post){ %>
+      <li>
+        <a href="<%- url_for(post.path) %>"><%= post.title %></a>
+        <span><%= post.categories.length ? post.categories.first().name : 'Essay' %></span>
+      </li>
+    <% }); %>
+  </ul>
+</section>
+<% } %>

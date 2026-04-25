@@ -1,0 +1,132 @@
+<!-- HERO -->
+<section class="about-hero">
+  <div class="about-hero__inner">
+    <h1 class="about-hero__title">Curiosity, code, and a bit of everything in between.</h1>
+    <p class="about-hero__sub">A personal blog about tech, AI, life, and whatever else catches my attention. No agenda. Just writing things down.</p>
+  </div>
+</section>
+
+<!-- PURPOSE -->
+<section class="about-section">
+  <div class="about-wrap">
+    <div class="about-label">Why This Blog</div>
+    <div class="about-content">
+      <p class="about-statement">I wanted a space to think out loud, share what I find useful, practice writing in English, and keep a record of the things I'm learning along the way.</p>
+      <div class="about-cards">
+        <div class="about-card">
+          <h3 class="about-card__title">A Place to Think</h3>
+          <p class="about-card__body">Not a portfolio, not a resume. Just somewhere to slow down, organize my thoughts, and write about things I care about. If it helps someone else, that's a bonus.</p>
+        </div>
+        <div class="about-card">
+          <h3 class="about-card__title">Learning in Public</h3>
+          <p class="about-card__body">I pick up new tools, techniques, and ideas all the time. Writing about them helps me understand them better — and maybe saves someone else a few hours of trial and error.</p>
+        </div>
+        <div class="about-card">
+          <h3 class="about-card__title">English as Practice</h3>
+          <p class="about-card__body">English isn't my first language, so every post is also a small exercise. I'm not chasing perfection — just getting more comfortable, one sentence at a time.</p>
+        </div>
+        <div class="about-card">
+          <h3 class="about-card__title">No Algorithm, No Pressure</h3>
+          <p class="about-card__body">This blog has no analytics, no comment section, no schedule. It exists on my terms. That's the whole point.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOPICS -->
+<section class="about-section">
+  <div class="about-wrap">
+    <div class="about-label">What I Write About</div>
+    <div class="about-content">
+      <p class="about-intro">I write about whatever I find interesting — usually at the intersection of technology and everyday life. Here's a rough map of what you'll find.</p>
+      <div class="about-topics">
+        <div class="about-topic">
+          <h3 class="about-topic__title">Tech & AI</h3>
+          <p class="about-topic__body">I use AI tools every day — not as a novelty, but as part of how I work and learn. When something actually changes my workflow or surprises me, I write about it. Honest takes, no hype.</p>
+        </div>
+        <div class="about-topic">
+          <h3 class="about-topic__title">Tips & Tools</h3>
+          <p class="about-topic__body">Shortcuts, setups, apps, browser tricks — the small stuff that makes daily life a little smoother. The kind of thing you'd text a friend about.</p>
+        </div>
+        <div class="about-topic">
+          <h3 class="about-topic__title">Entertainment</h3>
+          <p class="about-topic__body">Mostly Netflix and shows I'm watching. Sometimes a recommendation, sometimes a rant. No spoilers unless I warn you first.</p>
+        </div>
+        <div class="about-topic">
+          <h3 class="about-topic__title">English & Life</h3>
+          <p class="about-topic__body">Notes on expressions I've learned, thoughts on random things, and occasionally something personal. The miscellaneous drawer of this blog.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="about-section">
+  <div class="about-wrap">
+    <div class="about-label">How I Write</div>
+    <div class="about-content">
+      <p class="about-intro">I don't have a style guide, but I do have a few principles that shape how I write here.</p>
+      <div class="about-values">
+        <div class="about-value">
+          <span class="about-value__num">01</span>
+          <h3 class="about-value__title">Keep it real.</h3>
+          <p class="about-value__body">I write like I'm talking to a friend. No corporate tone, no unnecessary jargon, no pretending to be an expert on things I'm still figuring out.</p>
+        </div>
+        <div class="about-value">
+          <span class="about-value__num">02</span>
+          <h3 class="about-value__title">Short beats long.</h3>
+          <p class="about-value__body">If I can say it in 300 words, I won't stretch it to 1,000. Respect the reader's time, including my own.</p>
+        </div>
+        <div class="about-value">
+          <span class="about-value__num">03</span>
+          <h3 class="about-value__title">Share the useful stuff.</h3>
+          <p class="about-value__body">If something saved me time, solved a problem, or made me think differently, it's worth sharing. That's the bar.</p>
+        </div>
+        <div class="about-value">
+          <span class="about-value__num">04</span>
+          <h3 class="about-value__title">It's okay to be random.</h3>
+          <p class="about-value__body">A tech post one day, a Netflix review the next, a life thought the day after. That's not chaos — that's just being a person with more than one interest.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var title = document.querySelector('.about-hero__title');
+  if (!title) return;
+  var idx = 0;
+  function wrapNode(node) {
+    if (node.nodeType === 3) {
+      var parts = node.textContent.split(/(\s+)/);
+      var frag  = document.createDocumentFragment();
+      parts.forEach(function (p) {
+        if (!p) return;
+        if (/^\s+$/.test(p)) {
+          frag.appendChild(document.createTextNode(p));
+        } else {
+          var s = document.createElement('span');
+          s.style.cssText = 'display:inline-block;opacity:0;'
+            + 'animation:anim-word-up 0.5s ease forwards;'
+            + 'animation-delay:' + (idx++ * 52) + 'ms';
+          s.textContent = p;
+          frag.appendChild(s);
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    }
+  }
+  Array.from(title.childNodes).forEach(wrapNode);
+})();
+</script>
+
+<!-- CTA -->
+<section class="about-cta">
+  <h2 class="about-cta__title">Thanks for stopping by.</h2>
+  <p class="about-cta__sub">Feel free to look around — or come back when you're bored.</p>
+  <a class="about-cta__btn" href="<%- url_for('/') %>">Back to home →</a>
+</section>

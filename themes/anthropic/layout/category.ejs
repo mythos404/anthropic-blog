@@ -1,0 +1,66 @@
+<%
+  var COLORS = {
+    'Announcements': '#5A7060',
+    'AI & Tools':    '#4A6375',
+    'Tutorials':     '#6B5E7A',
+    'TV & Film':     '#7A5650',
+    'Thoughts':      '#7A6A56',
+    'Uncategorized': '#6B6456'
+  };
+  var catColor = COLORS[page.category] || COLORS['Uncategorized'];
+%>
+<section class="archive">
+  <div class="archive__header">
+    <h1 class="archive__title">
+      <a class="cat-breadcrumb__link" href="/categories/">Categories</a>
+      <span class="cat-breadcrumb__sep"> / </span><%= page.category %>
+    </h1>
+  </div>
+  <div class="archive__layout archive__layout--2col">
+
+    <div class="archive__left">
+      <div class="archive__cols archive__cols--2">
+        <span>Date</span>
+        <span>Title</span>
+      </div>
+      <ul class="archive__list">
+        <% page.posts.sort('-date').each(function(post){ %>
+          <li class="archive__row" data-title="<%= post.title %>">
+            <a href="<%- url_for(post.path) %>">
+              <time datetime="<%= date_xml(post.date) %>"><%= date(post.date, 'MMM D, YYYY') %></time>
+              <span class="archive__row-title"><%= post.title %></span>
+            </a>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+
+    <div class="archive__right">
+      <div class="archive__preview" id="js-archive-preview"
+           style="background: <%= catColor %>;" aria-hidden="true">
+        <span class="archive__preview-cat"><%= page.category %></span>
+        <span class="archive__preview-title" id="js-preview-title"></span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  var preview      = document.getElementById('js-archive-preview');
+  var previewTitle = document.getElementById('js-preview-title');
+  var rows         = document.querySelectorAll('.archive__row');
+  if (!preview || !rows.length) return;
+
+  function activate(row) {
+    previewTitle.textContent = row.dataset.title;
+  }
+
+  activate(rows[0]);
+
+  rows.forEach(function (row) {
+    row.addEventListener('mouseenter', function () { activate(row); });
+  });
+})();
+</script>

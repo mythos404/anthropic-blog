@@ -1,0 +1,90 @@
+<!-- HERO -->
+<section class="links-hero">
+  <div class="links-hero__inner">
+    <h1 class="links-hero__title">The places, tools, and reads I keep coming back to.</h1>
+    <p class="links-hero__sub">A curated list — not exhaustive, not sponsored. Just things I genuinely use, read, or find myself recommending to people.</p>
+  </div>
+</section>
+<script>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var title = document.querySelector('.links-hero__title');
+  if (!title) return;
+  var idx = 0;
+  function wrapNode(node) {
+    if (node.nodeType === 3) {
+      var parts = node.textContent.split(/(\s+)/);
+      var frag  = document.createDocumentFragment();
+      parts.forEach(function (p) {
+        if (!p) return;
+        if (/^\s+$/.test(p)) {
+          frag.appendChild(document.createTextNode(p));
+        } else {
+          var s = document.createElement('span');
+          s.style.cssText = 'display:inline-block;opacity:0;'
+            + 'animation:anim-word-up 0.5s ease forwards;'
+            + 'animation-delay:' + (idx++ * 52) + 'ms';
+          s.textContent = p;
+          frag.appendChild(s);
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    }
+  }
+  Array.from(title.childNodes).forEach(wrapNode);
+})();
+</script>
+
+<!-- READING -->
+<section class="about-section">
+  <div class="about-wrap">
+    <div class="about-label">Reading</div>
+    <div class="about-content">
+      <ul class="links-list">
+        <li class="links-item">
+          <a class="links-item__name" href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic News</a>
+          <p class="links-item__desc">Research updates, model releases, and thinking from the team behind Claude.</p>
+        </li>
+        <li class="links-item">
+          <a class="links-item__name" href="https://paulgraham.com/articles.html" target="_blank" rel="noopener">Paul Graham — Essays</a>
+          <p class="links-item__desc">Long-form thinking on startups, technology, and how to do good work.</p>
+        </li>
+        <li class="links-item">
+          <a class="links-item__name" href="https://news.ycombinator.com" target="_blank" rel="noopener">Hacker News</a>
+          <p class="links-item__desc">The best place to find out what's happening at the intersection of tech and ideas.</p>
+        </li>
+        <li class="links-item">
+          <a class="links-item__name" href="https://stratechery.com" target="_blank" rel="noopener">Stratechery</a>
+          <p class="links-item__desc">Ben Thompson's sharp analysis of tech strategy and business models.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="about-section about-section--no-border">
+  <div class="about-wrap">
+    <div class="about-label">Tools I Use</div>
+    <div class="about-content">
+      <ul class="links-list">
+        <li class="links-item">
+          <a class="links-item__name" href="https://claude.ai" target="_blank" rel="noopener">Claude</a>
+          <p class="links-item__desc">My daily AI assistant. Built by Anthropic — genuinely the one I trust most.</p>
+        </li>
+        <li class="links-item">
+          <a class="links-item__name" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+          <p class="links-item__desc">The static site generator powering this blog. Fast, flexible, Node-based.</p>
+        </li>
+        <li class="links-item">
+          <a class="links-item__name" href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+          <p class="links-item__desc">Where my code lives. Also one of the best ways to read how other people think.</p>
+        </li>
+        <li class="links-item">
+          <a class="links-item__name" href="https://ghostty.org" target="_blank" rel="noopener">Ghostty</a>
+          <p class="links-item__desc">A fast, minimal terminal emulator. Clean design, zero friction.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

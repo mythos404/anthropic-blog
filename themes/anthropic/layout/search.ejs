@@ -1,0 +1,14 @@
+<section class="search">
+  <h1 class="search__title">Search</h1>
+  <p class="search__hint">Type to filter posts by title or content.</p>
+  <input
+    type="search"
+    id="search-input"
+    placeholder="Type to search..."
+    autocomplete="off"
+    autofocus
+    data-source="<%- url_for('/search.xml') %>"
+  >
+  <div id="search-results" class="search__results" role="list"></div>
+</section>
+<script src="<%- url_for('/js/search.js') %>" defer></script>
