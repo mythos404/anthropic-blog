@@ -13,5 +13,7 @@
 <meta name="twitter:title" content="<%= page.title ? page.title + ' — ' + config.title : config.title %>">
 <meta name="twitter:description" content="<%= page.description || config.description || '' %>">
 <meta name="twitter:image" content="<%= config.url %>/images/nasa-pd4lo70LdbI-unsplash.jpg">
+<link rel="preload" href="<%- url_for('/fonts/AnthropicSans-Roman-Web.woff2') %>" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="<%- url_for('/fonts/AnthropicSerif-Roman-Web.woff2') %>" as="font" type="font/woff2" crossorigin>
 <link rel="icon" type="image/svg+xml" href="<%- url_for('/images/favicon.svg') %>">
 <link rel="stylesheet" href="<%- url_for('/css/style.css') %>">
