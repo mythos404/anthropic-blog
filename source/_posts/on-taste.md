@@ -1,7 +1,7 @@
 ---
 title: On taste in software
 date: 2026-04-08 09:00:00
-categories: Thoughts
+categories: Musings
 description: Taste is the quiet force behind every good decision you can't fully explain.
 ---
 

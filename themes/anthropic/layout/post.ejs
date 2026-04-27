@@ -1,6 +1,51 @@
 <%
   var related = site.posts.sort('-date').toArray().filter(function(p){ return p.path !== page.path; }).slice(0, 3);
 %>
+<% if (page.featured) { %>
+<div class="post-hero">
+  <div class="post-hero__inner">
+    <div class="post-hero__content">
+      <% if (page.categories && page.categories.length) { %>
+        <a class="post-hero__eyebrow" href="<%- url_for(page.categories.first().path) %>"><%= page.categories.first().name %></a>
+      <% } %>
+      <h1 class="post-hero__title"><%= page.title %></h1>
+      <% if (page.description) { %>
+        <p class="post-hero__desc"><%= page.description %></p>
+      <% } %>
+      <div class="post-hero__meta">
+        <time datetime="<%= date_xml(page.date) %>"><%= date(page.date, 'MMM D, YYYY') %></time>
+      </div>
+    </div>
+    <div class="post-hero__visual" aria-hidden="true">
+      <img src="/images/nasa-pd4lo70LdbI-unsplash.jpg" alt="">
+    </div>
+  </div>
+</div>
+<article class="post post--featured">
+  <div class="post__body">
+    <%- page.content %>
+  </div>
+
+  <% if (related.length) { %>
+  <section class="post__related">
+    <h2 class="post__related-heading">Related posts</h2>
+    <div class="post__related-grid">
+      <% related.forEach(function(p){ %>
+        <article class="post__related-item">
+          <h3 class="post__related-name">
+            <a href="<%- url_for(p.path) %>"><%= p.title %></a>
+          </h3>
+          <% if (p.description) { %>
+            <p class="post__related-desc"><%= p.description %></p>
+          <% } %>
+          <a class="post__related-cta" href="<%- url_for(p.path) %>">Read more →</a>
+        </article>
+      <% }); %>
+    </div>
+  </section>
+  <% } %>
+</article>
+<% } else { %>
 <article class="post">
 
   <header class="post__header">
@@ -37,3 +82,4 @@
   <% } %>
 
 </article>
+<% } %>

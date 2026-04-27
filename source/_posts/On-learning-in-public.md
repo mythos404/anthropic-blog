@@ -1,7 +1,7 @@
 ---
 title: On learning in public
 date: 2026-04-24
-categories: Thoughts
+categories: Musings
 description: There's something uncomfortable about showing your work before it's done. That discomfort might be the whole point.
 ---
 

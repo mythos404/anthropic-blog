@@ -1,7 +1,7 @@
 ---
 title: On writing less code
 date: 2026-04-18 09:00:00
-categories: Thoughts
+categories: Musings
 description: The best code is the code you didn't write.
 ---
 

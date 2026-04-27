@@ -1,13 +1,13 @@
 <%
   var sorted = site.posts.sort('-date').toArray();
-  var featured = sorted[0];
+  var featured = sorted.find(function(p){ return p.featured; }) || sorted[0];
   var rest = sorted.slice(0, 3);
-  var allList = sorted.slice(0, 5);
+  var allList = sorted.slice(3, 8);
 %>
 
 <section class="hero">
   <div class="hero__left">
-    <h1 class="hero__title">Notes on <a href="/categories/AI-Tools/" class="hero__title-link">AI</a>, great <a href="/categories/TV-Film/" class="hero__title-link">TV</a>, and the art of figuring things out.</h1>
+    <h1 class="hero__title">Curious about <a href="/archives/" class="hero__title-link hero__title-link--underline">everything</a>. Expert in <a href="/about/" class="hero__title-link hero__title-link--underline">nothing</a>. Writing anyway.</h1>
   </div>
   <div class="hero__right">
     <p class="hero__desc">A personal blog. No agenda, no expertise. Just a Saul Goodman fan writing about tools, shows, and the stuff that keeps life interesting.</p>
@@ -65,6 +65,11 @@
   var card  = document.querySelector('.featured__card');
   var inner = document.querySelector('.featured__inner');
   if (!card || !inner) return;
+
+  card.addEventListener('click', function(e) {
+    if (e.target.closest('a')) return;
+    window.location.href = '<%- url_for(featured.path) %>';
+  });
 
   var initLeft = 0, initRight = 0, cardDocTop = 0, initInnerW = 0;
   var RADIUS = 24;
