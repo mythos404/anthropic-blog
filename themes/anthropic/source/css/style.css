@@ -166,6 +166,81 @@ img { max-width: 100%; display: block; }
 }
 .site-nav__random:hover { opacity: 0.85; }
 
+/* ---------- Mobile nav toggle ---------- */
+/* ---------- Nav toggle — three bars animate to × ---------- */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 22px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #191918;
+}
+body.page-featured .nav-toggle { color: var(--dark-fg); }
+
+.bar {
+  display: block;
+  height: 1px;
+  background: currentColor;
+  flex-shrink: 0;
+  /* rotate from left end so bars cross on the left side */
+  transform-origin: left center;
+  transition: transform 0.38s ease, opacity 0.25s ease, width 0.38s ease;
+}
+/* bar-3 closing: rotate back first, then shrink width */
+.bar-3 {
+  transition: width 0.2s ease 0.3s, transform 0.38s ease, opacity 0.25s ease;
+}
+.bar-1 { width: 100%; }
+.bar-2 { width: 100%; }
+.bar-3 { width: 59%; } /* shorter right end in hamburger state */
+
+/* On open: bar-3 first reaches full width so both arms are equal,
+   then both rotate ±45° from the left end → symmetric × crossing on the left */
+.nav-toggle[aria-expanded="true"] .bar-1 { transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .bar-2 { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .bar-3 {
+  width: 100%;
+  transform: rotate(-45deg);
+  /* width finishes first so the bar is full-length before rotation completes */
+  transition: width 0.15s ease, transform 0.38s ease 0.05s, opacity 0.25s ease;
+}
+
+/* ---------- Mobile nav overlay ---------- */
+/* Full-screen (top: 0). Header (z-index 100) sits on top;
+   JS also changes header bg to #FAF9F5 on open so the whole top looks unified. */
+.mobile-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 99;
+  background: #FAF9F5;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+  pointer-events: none;
+  /* clip-path transition is set inline by JS */
+}
+
+.mobile-nav__links {
+  display: flex;
+  flex-direction: column;
+}
+.mobile-nav__links a {
+  font-family: var(--font-sans);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--fg);
+  text-decoration: none;
+  padding: 20px var(--gutter);
+  border-top: 1px solid rgba(25, 25, 24, 0.1);
+}
+.mobile-nav__links a:last-child { border-bottom: 1px solid rgba(25, 25, 24, 0.1); }
+
 /* ---------- Main ---------- */
 .main { padding-bottom: 0; }
 
@@ -1079,21 +1154,26 @@ body.page-featured .site-footer__inner {
   .post-hero__visual { display: none; }
 }
 @media (max-width: 768px) {
-  :root { --gutter: 20px; }
-  .site-header { padding: 16px 0; }
+  :root { --gutter: 40px; }
+  .site-nav { display: none; }
+  .nav-toggle { display: flex; }
+  /* Hide middle logo letters on mobile — only S + G remain */
+  .logo-letter { display: none; }
+  .site-header.is-scrolled .logo-letter { display: none; }
+  .site-logo { font-size: 22px; }
   .hero {
     flex-direction: column;
+    align-items: stretch;
     padding-top: 40px;
     padding-bottom: 30px;
     gap: 24px;
   }
   .hero__left, .hero__right { flex: 1 1 100%; }
-  .site-logo { font-size: 12px; }
   .featured__inner { padding: 36px 24px; }
   .post-hero__inner { padding: 36px 24px; }
-  .releases { padding: 0 20px 60px; }
-  .manifesto { padding: 0 20px 60px; }
-  .site-footer { padding: 48px 20px 32px; margin-top: 60px; }
+  .releases { padding: 0 var(--gutter) 60px; }
+  .manifesto { padding: 0 var(--gutter) 60px; }
+  .site-footer { padding: 48px var(--gutter) 32px; margin-top: 60px; }
   .site-footer__cols { grid-template-columns: 1fr 1fr; gap: 24px; }
 }
 

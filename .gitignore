@@ -4,3 +4,4 @@ public/
 db.json
 .idea/
 .vscode/
+.claude/

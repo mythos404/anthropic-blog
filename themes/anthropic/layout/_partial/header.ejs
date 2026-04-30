@@ -9,23 +9,97 @@
       <a href="<%- url_for('/links/') %>">Links</a>
       <button class="site-nav__random" id="js-random" aria-label="Go to a random post">Random</button>
     </nav>
-    <script>
-    (function(){
-      var posts = <%- JSON.stringify(site.posts.map(function(p){ return p.path; })) %>;
-      document.getElementById('js-random').addEventListener('click', function(){
-        if (!posts.length) return;
-        var path = posts[Math.floor(Math.random() * posts.length)];
-        window.location.href = '/' + path;
-      });
-    })();
-    </script>
+    <!-- Hamburger — three bars animate to × -->
+    <button class="nav-toggle" id="js-nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span class="bar bar-1"></span>
+      <span class="bar bar-2"></span>
+      <span class="bar bar-3"></span>
+    </button>
   </div>
 </header>
+
+<!-- Mobile nav overlay — top set by JS, clip-path animates from header downward -->
+<div class="mobile-nav" id="js-mobile-nav" aria-hidden="true">
+  <nav class="mobile-nav__links">
+    <a href="<%- url_for('/') %>">Home</a>
+    <a href="<%- url_for('/archives/') %>">Archives</a>
+    <a href="<%- url_for('/categories/') %>">Categories</a>
+    <a href="<%- url_for('/about/') %>">About</a>
+    <a href="<%- url_for('/links/') %>">Links</a>
+  </nav>
+</div>
+
 <script>
 (function(){
-  var h = document.querySelector('.site-header');
+  var posts = <%- JSON.stringify(site.posts.map(function(p){ return p.path; })) %>;
+  document.getElementById('js-random').addEventListener('click', function(){
+    if (!posts.length) return;
+    var path = posts[Math.floor(Math.random() * posts.length)];
+    window.location.href = '/' + path;
+  });
+
+  var toggle    = document.getElementById('js-nav-toggle');
+  var mobileNav = document.getElementById('js-mobile-nav');
+  var header    = document.querySelector('.site-header');
+  var closeTimer;
+
+  function openNav() {
+    clearTimeout(closeTimer);
+    /* Make header match the overlay colour so the whole top looks unified */
+    header.style.background = '#FAF9F5';
+    header.style.color      = '#191918';
+
+    /* Push links below the header so "Home" isn't hidden behind it */
+    mobileNav.style.paddingTop = header.offsetHeight + 'px';
+
+    /* Reset to fully-closed clip-path, then animate open in next paint */
+    mobileNav.style.transition    = 'none';
+    mobileNav.style.clipPath      = 'inset(0 0 100% 0)';
+    mobileNav.style.visibility    = 'visible';
+    mobileNav.style.pointerEvents = 'auto';
+    mobileNav.setAttribute('aria-hidden', 'false');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        mobileNav.style.transition = 'clip-path 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
+        mobileNav.style.clipPath   = 'inset(0 0 0% 0)';
+      });
+    });
+  }
+
+  function closeNav() {
+    /* Restore header to its original colour */
+    header.style.background = '';
+    header.style.color      = '';
+
+    /* Close top-to-bottom: top inset grows from 0 → 100% */
+    mobileNav.style.transition = 'clip-path 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+    mobileNav.style.clipPath   = 'inset(100% 0 0% 0)';
+    toggle.setAttribute('aria-expanded', 'false');
+    mobileNav.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+
+    closeTimer = setTimeout(function(){
+      mobileNav.style.visibility    = 'hidden';
+      mobileNav.style.pointerEvents = 'none';
+      mobileNav.style.clipPath      = '';
+      mobileNav.style.transition    = '';
+    }, 420);
+  }
+
+  toggle.addEventListener('click', function(){
+    if (toggle.getAttribute('aria-expanded') === 'true') {
+      closeNav();
+    } else {
+      openNav();
+    }
+  });
+
+  var header = document.querySelector('.site-header');
   window.addEventListener('scroll', function(){
-    h.classList.toggle('is-scrolled', window.scrollY > 80);
+    header.classList.toggle('is-scrolled', window.scrollY > 80);
   }, {passive: true});
 })();
 </script>
